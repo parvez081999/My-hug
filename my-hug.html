@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Hug Day 🤗💕</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6e6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #d63384;
+            font-size: 2.5em;
+        }
+        p {
+            font-size: 1.3em;
+            color: #444;
+        }
+        .hug-stickers {
+            margin: 20px 0;
+        }
+        .hug-stickers img {
+            width: 120px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .scratch-card {
+            position: relative;
+            width: 320px;
+            height: 180px;
+            margin: 20px auto;
+            background-color: white;
+            color: #d63384;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 10px;
+        }
+        #hug-message {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d63384;
+            padding: 10px;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🤗 Happy Hug Day, Shanu! 💕</h1>
+    <p>Scratch the card below to reveal your special Hug Day message! 💖</p>
+
+    <!-- Hug Stickers -->
+    <div class="hug-stickers">
+        <img src="https://media.tenor.com/NZfbsUuG07EAAAAC/hug-love.gif" alt="Cute Hug Sticker 1">
+        <img src="https://media.tenor.com/1cS_x6f2FqgAAAAM/cute-love.gif" alt="Cute Hug Sticker 2">
+        <img src="https://media.tenor.com/uGZnMDmruPMAAAAC/hug-anime-hug.gif" alt="Cute Hug Sticker 3">
+    </div>
+
+    <div class="scratch-card">
+        <p id="hug-message">"A hug is the shortest distance between hearts. Here's a warm hug just for you, Shanu! 🤗💖"</p>
+        <canvas id="scratchCanvas"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const canvas = document.getElementById("scratchCanvas");
+            const ctx = canvas.getContext("2d");
+            const card = document.querySelector(".scratch-card");
+
+            canvas.width = card.offsetWidth;
+            canvas.height = card.offsetHeight;
+
+            // Fill with scratch layer color
+            ctx.fillStyle = "#d63384";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = "destination-out";
+
+            let isDrawing = false;
+
+            function startScratch(e) {
+                isDrawing = true;
+                scratch(e);
+            }
+
+            function endScratch() {
+                isDrawing = false;
+            }
+
+            function scratch(e) {
+                if (!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+                const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+                ctx.beginPath();
+                ctx.arc(x, y, 30, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            canvas.addEventListener("mousedown", startScratch);
+            canvas.addEventListener("mousemove", scratch);
+            canvas.addEventListener("mouseup", endScratch);
+            canvas.addEventListener("mouseleave", endScratch);
+            canvas.addEventListener("touchstart", startScratch);
+            canvas.addEventListener("touchmove", scratch);
+            canvas.addEventListener("touchend", endScratch);
+        });
+    </script>
+
+</body>
+</html>
